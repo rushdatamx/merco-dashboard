@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Store {
+  id           Int    @id @default(autoincrement())
+  codigoTienda Int    @unique @map("codigo_tienda")
+  nombreTienda String @map("nombre_tienda")
+  sales        Sale[]
+
+  @@map("stores")
+}
+
+model Product {
+  id                Int     @id @default(autoincrement())
+  upc               String  @unique
+  nombreProducto    String  @map("nombre_producto")
+  linea             String?
+  departamento      String?
+  descripcionDelikos String? @map("descripcion_delikos")
+  sales             Sale[]
+
+  @@map("products")
+}
+
+model Sale {
+  id         Int     @id @default(autoincrement())
+  fecha      String
+  ventaPesos Float   @map("venta_pesos")
+  unidades   Float
+
+  tiendaCodigo Int     @map("tienda_codigo")
+  store        Store   @relation(fields: [tiendaCodigo], references: [codigoTienda])
+
+  upc     String
+  product Product @relation(fields: [upc], references: [upc])
+
+  @@index([fecha])
+  @@index([tiendaCodigo])
+  @@index([upc])
+  @@index([fecha, tiendaCodigo])
+  @@map("sales")
+}
