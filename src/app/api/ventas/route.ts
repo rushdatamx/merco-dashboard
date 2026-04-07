@@ -3,6 +3,7 @@ import { getMonthlySummary, getEnrichedSales, getLineaSummary } from '@/lib/data
 import { calculatePareto, calculateMoM, calculateYoY } from '@/lib/calculations';
 
 export async function GET(request: NextRequest) {
+  try {
   const params = Object.fromEntries(request.nextUrl.searchParams);
 
   const filters = {
@@ -78,4 +79,8 @@ export async function GET(request: NextRequest) {
     departamentos,
     lineas,
   });
+  } catch (error) {
+    console.error('API /ventas error:', error);
+    return NextResponse.json({ error: String(error) }, { status: 500 });
+  }
 }

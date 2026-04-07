@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getStorePerformance, getEnrichedSales } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
+  try {
   const params = Object.fromEntries(request.nextUrl.searchParams);
 
   const filters = {
@@ -52,4 +53,8 @@ export async function GET(request: NextRequest) {
     allMonths,
     allLineas,
   });
+  } catch (error) {
+    console.error('API /tiendas error:', error);
+    return NextResponse.json({ error: String(error) }, { status: 500 });
+  }
 }
