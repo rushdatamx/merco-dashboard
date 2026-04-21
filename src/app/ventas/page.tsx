@@ -11,11 +11,11 @@ import { ChartWrapper } from '@/components/charts/chart-wrapper';
 import { LoadingPage } from '@/components/layout/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { formatMXN, formatCompact, formatChange, changeColor, formatNumber } from '@/lib/format';
-import { formatPeriodo, LINEA_COLORS } from '@/lib/constants';
+import { formatPeriodo, DEPARTAMENTO_COLORS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 interface VentasResponse {
-  tendenciaLineas: Array<Record<string, unknown>>;
+  tendenciaDepartamentos: Array<Record<string, unknown>>;
   tablaVentas: Array<{
     mes: string;
     ventaPesos: number;
@@ -29,25 +29,25 @@ interface VentasResponse {
     upc: string;
     nombre: string;
     pesos: number;
-    linea: string;
+    departamento: string;
     porcentaje: number;
     porcentajeAcumulado: number;
   }>;
   departamentos: Array<{ departamento: string; ventaPesos: number }>;
-  lineas: Array<{ linea: string; ventaTotal: number; porcentaje: number }>;
+  resumenDepartamentos: Array<{ departamento: string; ventaTotal: number; porcentaje: number }>;
 }
 
 export default function VentasPage() {
   const { data, loading } = useApi<VentasResponse>('ventas');
 
-  const lineasKeys = useMemo(() => {
-    if (!data?.tendenciaLineas?.length) return [];
-    return Object.keys(data.tendenciaLineas[0]).filter((k) => k !== 'mes');
+  const deptKeys = useMemo(() => {
+    if (!data?.tendenciaDepartamentos?.length) return [];
+    return Object.keys(data.tendenciaDepartamentos[0]).filter((k) => k !== 'mes');
   }, [data]);
 
   const tendenciaData = useMemo(() => {
     if (!data) return [];
-    return data.tendenciaLineas.map((d) => ({
+    return data.tendenciaDepartamentos.map((d) => ({
       ...d,
       label: formatPeriodo(d.mes as string),
     }));
@@ -67,8 +67,8 @@ export default function VentasPage() {
         <p className="text-sm text-muted-foreground">Análisis profundo de ventas</p>
       </div>
 
-      {/* Stacked area by line */}
-      <ChartWrapper titulo="Tendencia mensual por línea" subtitulo="Ventas en pesos (área apilada)">
+      {/* Stacked area by departamento */}
+      <ChartWrapper titulo="Tendencia mensual por departamento" subtitulo="Ventas en pesos (área apilada)">
         <ResponsiveContainer width="100%" height={350}>
           <AreaChart data={tendenciaData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
@@ -79,14 +79,14 @@ export default function VentasPage() {
               formatter={(value, name) => [formatMXN(Number(value)), String(name)]}
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            {lineasKeys.map((key) => (
+            {deptKeys.map((key) => (
               <Area
                 key={key}
                 type="monotone"
                 dataKey={key}
                 stackId="1"
-                fill={LINEA_COLORS[key] || '#6B7280'}
-                stroke={LINEA_COLORS[key] || '#6B7280'}
+                fill={DEPARTAMENTO_COLORS[key] || '#6B7280'}
+                stroke={DEPARTAMENTO_COLORS[key] || '#6B7280'}
                 fillOpacity={0.6}
               />
             ))}
@@ -173,7 +173,7 @@ export default function VentasPage() {
             />
             <Bar yAxisId="left" dataKey="pesos" radius={[4, 4, 0, 0]}>
               {paretoData.map((entry) => (
-                <Cell key={entry.upc} fill={LINEA_COLORS[entry.linea] || '#6B7280'} fillOpacity={0.8} />
+                <Cell key={entry.upc} fill={DEPARTAMENTO_COLORS[entry.departamento] || '#6B7280'} fillOpacity={0.8} />
               ))}
             </Bar>
             <Line

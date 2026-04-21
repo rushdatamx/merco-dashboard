@@ -10,7 +10,6 @@ export interface Sale {
   // joined fields
   nombreProducto?: string;
   nombreTienda?: string;
-  linea?: string;
   departamento?: string;
 }
 
@@ -64,7 +63,6 @@ export interface StorePerformance {
 export interface ProductPerformance {
   upc: string;
   nombreProducto: string;
-  linea: string;
   departamento: string;
   ventaTotal: number;
   unidadesTotal: number;
@@ -74,8 +72,8 @@ export interface ProductPerformance {
   crecimientoMoM: number | null;
 }
 
-export interface LineaSummary {
-  linea: string;
+export interface DepartamentoSummary {
+  departamento: string;
   ventaTotal: number;
   unidadesTotal: number;
   productos: number;
@@ -104,7 +102,6 @@ export interface FilterState {
   periodo: string | null; // "2025-01" or null for all
   periodoInicio: string | null;
   periodoFin: string | null;
-  linea: string | null;
   departamento: string | null;
   tienda: number | null;
   producto: string | null; // UPC
@@ -113,7 +110,6 @@ export interface FilterState {
 export type FilterAction =
   | { type: 'SET_PERIODO'; payload: string | null }
   | { type: 'SET_PERIODO_RANGO'; payload: { inicio: string | null; fin: string | null } }
-  | { type: 'SET_LINEA'; payload: string | null }
   | { type: 'SET_DEPARTAMENTO'; payload: string | null }
   | { type: 'SET_TIENDA'; payload: number | null }
   | { type: 'SET_PRODUCTO'; payload: string | null }
@@ -124,7 +120,7 @@ export type FilterAction =
 export interface DashboardData {
   kpis: KPIData[];
   tendenciaMensual: MonthlySummary[];
-  mixLineas: LineaSummary[];
+  mixDepartamentos: DepartamentoSummary[];
   topTiendas: StorePerformance[];
   insights: Insight[];
 }
@@ -132,6 +128,5 @@ export interface DashboardData {
 export interface EnrichedSale extends Sale {
   nombreProducto: string;
   nombreTienda: string;
-  linea: string;
   departamento: string;
 }

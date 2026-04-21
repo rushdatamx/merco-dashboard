@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getProductPerformance, getLineaSummary } from '@/lib/data';
+import { getProductPerformance, getDepartamentoSummary } from '@/lib/data';
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,18 +8,17 @@ export async function GET(request: NextRequest) {
     const filters = {
       fechaInicio: params.fechaInicio || undefined,
       fechaFin: params.fechaFin || undefined,
-      linea: params.linea || undefined,
       upc: params.upc || undefined,
     };
 
-    const [products, lineas] = await Promise.all([
+    const [products, departamentos] = await Promise.all([
       getProductPerformance(filters),
-      getLineaSummary(filters),
+      getDepartamentoSummary(filters),
     ]);
 
     return NextResponse.json({
       products,
-      lineas,
+      departamentos,
     });
   } catch (error) {
     console.error('API /productos error:', error);

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getMonthlySummary, getLineaSummary, getStorePerformance, getProductPerformance } from '@/lib/data';
+import { getMonthlySummary, getDepartamentoSummary, getStorePerformance, getProductPerformance } from '@/lib/data';
 import { calculateKPIs, generateInsights } from '@/lib/calculations';
 
 export async function GET(request: NextRequest) {
@@ -9,26 +9,25 @@ export async function GET(request: NextRequest) {
     const filters = {
       fechaInicio: params.fechaInicio || undefined,
       fechaFin: params.fechaFin || undefined,
-      linea: params.linea || undefined,
       departamento: params.departamento || undefined,
       tiendaCodigo: params.tiendaCodigo ? Number(params.tiendaCodigo) : undefined,
       upc: params.upc || undefined,
     };
 
-    const [monthlySummary, lineas, stores, products] = await Promise.all([
+    const [monthlySummary, departamentos, stores, products] = await Promise.all([
       getMonthlySummary(filters),
-      getLineaSummary(filters),
+      getDepartamentoSummary(filters),
       getStorePerformance(filters),
       getProductPerformance(filters),
     ]);
 
     const kpis = calculateKPIs(monthlySummary);
-    const insights = generateInsights(monthlySummary, lineas, stores, products);
+    const insights = generateInsights(monthlySummary, departamentos, stores, products);
 
     return NextResponse.json({
       kpis,
       tendenciaMensual: monthlySummary,
-      mixLineas: lineas,
+      mixDepartamentos: departamentos,
       topTiendas: stores.slice(0, 10),
       insights,
     });

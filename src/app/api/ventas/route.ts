@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getMonthlySummary, getEnrichedSales, getLineaSummary } from '@/lib/data';
+import { getMonthlySummary, getEnrichedSales, getDepartamentoSummary } from '@/lib/data';
 import { calculatePareto, calculateMoM, calculateYoY } from '@/lib/calculations';
 
 export async function GET(request: NextRequest) {
@@ -9,28 +9,27 @@ export async function GET(request: NextRequest) {
   const filters = {
     fechaInicio: params.fechaInicio || undefined,
     fechaFin: params.fechaFin || undefined,
-    linea: params.linea || undefined,
     departamento: params.departamento || undefined,
     tiendaCodigo: params.tiendaCodigo ? Number(params.tiendaCodigo) : undefined,
     upc: params.upc || undefined,
   };
 
-  const [monthlySummary, sales, lineas] = await Promise.all([
+  const [monthlySummary, sales, resumenDepartamentos] = await Promise.all([
     getMonthlySummary(filters),
     getEnrichedSales(filters),
-    getLineaSummary(filters),
+    getDepartamentoSummary(filters),
   ]);
 
-  // Monthly by linea for stacked area
-  const monthlyByLinea: Record<string, Record<string, number>> = {};
+  // Monthly by departamento for stacked area
+  const monthlyByDept: Record<string, Record<string, number>> = {};
   for (const s of sales) {
-    if (!monthlyByLinea[s.fecha]) monthlyByLinea[s.fecha] = {};
-    monthlyByLinea[s.fecha][s.linea] = (monthlyByLinea[s.fecha][s.linea] || 0) + s.ventaPesos;
+    if (!monthlyByDept[s.fecha]) monthlyByDept[s.fecha] = {};
+    monthlyByDept[s.fecha][s.departamento] = (monthlyByDept[s.fecha][s.departamento] || 0) + s.ventaPesos;
   }
 
-  const tendenciaLineas = Object.entries(monthlyByLinea)
+  const tendenciaDepartamentos = Object.entries(monthlyByDept)
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([mes, lineasData]) => ({ mes, ...lineasData }));
+    .map(([mes, deptData]) => ({ mes, ...deptData }));
 
   // MoM and YoY table
   const tablaVentas = monthlySummary.map((m, i) => {
@@ -50,13 +49,13 @@ export async function GET(request: NextRequest) {
   });
 
   // Pareto by product
-  const productSales = new Map<string, { nombre: string; pesos: number; linea: string }>();
+  const productSales = new Map<string, { nombre: string; pesos: number; departamento: string }>();
   for (const s of sales) {
     const existing = productSales.get(s.upc);
     if (existing) {
       existing.pesos += s.ventaPesos;
     } else {
-      productSales.set(s.upc, { nombre: s.nombreProducto, pesos: s.ventaPesos, linea: s.linea });
+      productSales.set(s.upc, { nombre: s.nombreProducto, pesos: s.ventaPesos, departamento: s.departamento });
     }
   }
   const paretoProducts = calculatePareto(
@@ -74,11 +73,11 @@ export async function GET(request: NextRequest) {
     .sort((a, b) => b.ventaPesos - a.ventaPesos);
 
   return NextResponse.json({
-    tendenciaLineas,
+    tendenciaDepartamentos,
     tablaVentas,
     pareto: paretoProducts,
     departamentos,
-    lineas,
+    resumenDepartamentos,
   });
   } catch (error) {
     console.error('API /ventas error:', error);

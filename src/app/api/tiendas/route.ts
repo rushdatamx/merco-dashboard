@@ -8,7 +8,6 @@ export async function GET(request: NextRequest) {
   const filters = {
     fechaInicio: params.fechaInicio || undefined,
     fechaFin: params.fechaFin || undefined,
-    linea: params.linea || undefined,
     upc: params.upc || undefined,
   };
 
@@ -28,22 +27,22 @@ export async function GET(request: NextRequest) {
     })),
   }));
 
-  // Distribution matrix: store x linea
-  const storeLinea = new Map<string, Map<string, number>>();
+  // Distribution matrix: store x departamento
+  const storeDept = new Map<string, Map<string, number>>();
   for (const s of sales) {
     const key = String(s.tiendaCodigo);
-    if (!storeLinea.has(key)) storeLinea.set(key, new Map());
-    const lineaMap = storeLinea.get(key)!;
-    lineaMap.set(s.linea, (lineaMap.get(s.linea) || 0) + s.ventaPesos);
+    if (!storeDept.has(key)) storeDept.set(key, new Map());
+    const deptMap = storeDept.get(key)!;
+    deptMap.set(s.departamento, (deptMap.get(s.departamento) || 0) + s.ventaPesos);
   }
 
-  const allLineas = [...new Set(sales.map((s) => s.linea))].sort();
+  const allDepartamentos = [...new Set(sales.map((s) => s.departamento))].sort();
   const matrizDistribucion = stores.slice(0, 30).map((st) => {
-    const lineaMap = storeLinea.get(String(st.codigoTienda)) || new Map();
+    const deptMap = storeDept.get(String(st.codigoTienda)) || new Map();
     return {
       tienda: st.nombreTienda,
       codigo: st.codigoTienda,
-      lineas: Object.fromEntries(allLineas.map((l) => [l, lineaMap.get(l) || 0])),
+      departamentos: Object.fromEntries(allDepartamentos.map((d) => [d, deptMap.get(d) || 0])),
     };
   });
 
@@ -52,7 +51,7 @@ export async function GET(request: NextRequest) {
     heatmap,
     matrizDistribucion,
     allMonths,
-    allLineas,
+    allDepartamentos,
   });
   } catch (error) {
     console.error('API /tiendas error:', error);

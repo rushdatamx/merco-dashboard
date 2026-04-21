@@ -11,7 +11,7 @@ import { LoadingPage } from '@/components/layout/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { formatMXN, formatCompact, formatChange, changeColor, formatNumber } from '@/lib/format';
-import { formatPeriodo, LINEA_COLORS } from '@/lib/constants';
+import { formatPeriodo, DEPARTAMENTO_COLORS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import type { StorePerformance } from '@/lib/types';
 
@@ -25,10 +25,10 @@ interface TiendasResponse {
   matrizDistribucion: Array<{
     tienda: string;
     codigo: number;
-    lineas: Record<string, number>;
+    departamentos: Record<string, number>;
   }>;
   allMonths: string[];
-  allLineas: string[];
+  allDepartamentos: string[];
 }
 
 type SortKey = 'ventaTotal' | 'crecimientoMoM' | 'skus' | 'unidadesTotal';
@@ -224,15 +224,15 @@ export default function TiendasPage() {
       </div>
 
       {/* Distribution matrix */}
-      <ChartWrapper titulo="Matriz de distribución" subtitulo="Tienda × línea de producto (gaps = oportunidad de crecimiento)">
+      <ChartWrapper titulo="Matriz de distribución" subtitulo="Tienda × departamento (gaps = oportunidad de crecimiento)">
         <div className="overflow-auto max-h-[400px]">
           <table className="w-full text-[10px]">
             <thead>
               <tr>
                 <th className="text-left p-1 sticky left-0 bg-card z-10 text-muted-foreground">Tienda</th>
-                {data.allLineas.map((l) => (
-                  <th key={l} className="p-2 text-center text-muted-foreground">
-                    <span style={{ color: LINEA_COLORS[l] || '#6B7280' }}>{l}</span>
+                {data.allDepartamentos.map((d) => (
+                  <th key={d} className="p-2 text-center text-muted-foreground">
+                    <span style={{ color: DEPARTAMENTO_COLORS[d] || '#6B7280' }}>{d}</span>
                   </th>
                 ))}
               </tr>
@@ -243,10 +243,10 @@ export default function TiendasPage() {
                   <td className="p-1 sticky left-0 bg-card z-10 truncate max-w-[140px]">
                     {row.tienda.replace(/^\d+-/, '').trim()}
                   </td>
-                  {data.allLineas.map((l) => {
-                    const val = row.lineas[l] || 0;
+                  {data.allDepartamentos.map((d) => {
+                    const val = row.departamentos[d] || 0;
                     return (
-                      <td key={l} className="p-1 text-center">
+                      <td key={d} className="p-1 text-center">
                         {val > 0 ? (
                           <span className="text-foreground">{formatCompact(val)}</span>
                         ) : (

@@ -1,4 +1,4 @@
-import type { EnrichedSale, Insight, MonthlySummary, StorePerformance, ProductPerformance, LineaSummary } from './types';
+import type { EnrichedSale, Insight, MonthlySummary, StorePerformance, ProductPerformance, DepartamentoSummary } from './types';
 
 // ─── KPI Calculations ───
 
@@ -74,21 +74,21 @@ export function calculatePareto<T>(
 
 export function generateInsights(
   monthlySummary: MonthlySummary[],
-  lineas: LineaSummary[],
+  departamentos: DepartamentoSummary[],
   topStores: StorePerformance[],
   topProducts: ProductPerformance[]
 ): Insight[] {
   const insights: Insight[] = [];
 
   // 1. Concentration risk
-  if (lineas.length > 0) {
-    const topLinea = lineas[0];
-    if (topLinea.porcentaje > 50) {
+  if (departamentos.length > 0) {
+    const topDept = departamentos[0];
+    if (topDept.porcentaje > 50) {
       insights.push({
         tipo: 'alerta',
         titulo: 'Riesgo de concentración',
-        descripcion: `${topLinea.linea} representa el ${topLinea.porcentaje.toFixed(1)}% de las ventas totales. Alta dependencia de una sola línea.`,
-        valor: `${topLinea.porcentaje.toFixed(1)}%`,
+        descripcion: `${topDept.departamento} representa el ${topDept.porcentaje.toFixed(1)}% de las ventas totales. Alta dependencia de un solo departamento.`,
+        valor: `${topDept.porcentaje.toFixed(1)}%`,
       });
     }
   }

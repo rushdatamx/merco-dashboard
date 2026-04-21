@@ -9,7 +9,7 @@ import { formatPeriodo } from '@/lib/constants';
 
 interface FilterOptions {
   months: string[];
-  lineas: string[];
+  departamentos: string[];
   stores: { codigoTienda: number; nombreTienda: string }[];
   products: { upc: string; nombreProducto: string }[];
 }
@@ -25,7 +25,7 @@ export function Header() {
       .catch(console.error);
   }, []);
 
-  const hasFilters = filters.periodoInicio || filters.linea || filters.departamento || filters.tienda || filters.producto;
+  const hasFilters = filters.periodoInicio || filters.departamento || filters.tienda || filters.producto;
 
   return (
     <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
@@ -49,18 +49,18 @@ export function Header() {
           </SelectContent>
         </Select>
 
-        {/* Linea */}
+        {/* Departamento */}
         <Select
-          value={filters.linea || 'all'}
-          onValueChange={(v) => dispatch({ type: 'SET_LINEA', payload: v === 'all' ? null : v })}
+          value={filters.departamento || 'all'}
+          onValueChange={(v) => dispatch({ type: 'SET_DEPARTAMENTO', payload: v === 'all' ? null : v })}
         >
-          <SelectTrigger className="w-[160px] h-8 text-xs shrink-0">
-            <SelectValue placeholder="Línea" />
+          <SelectTrigger className="w-[180px] h-8 text-xs shrink-0">
+            <SelectValue placeholder="Departamento" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Todas las líneas</SelectItem>
-            {options?.lineas.map((l) => (
-              <SelectItem key={l} value={l}>{l}</SelectItem>
+            <SelectItem value="all">Todos los departamentos</SelectItem>
+            {options?.departamentos.map((d) => (
+              <SelectItem key={d} value={d}>{d}</SelectItem>
             ))}
           </SelectContent>
         </Select>

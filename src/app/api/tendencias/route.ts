@@ -7,7 +7,6 @@ export async function GET(request: NextRequest) {
     const params = Object.fromEntries(request.nextUrl.searchParams);
 
     const filters = {
-      linea: params.linea || undefined,
       departamento: params.departamento || undefined,
       tiendaCodigo: params.tiendaCodigo ? Number(params.tiendaCodigo) : undefined,
       upc: params.upc || undefined,

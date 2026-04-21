@@ -7,7 +7,6 @@ const initialState: FilterState = {
   periodo: null,
   periodoInicio: null,
   periodoFin: null,
-  linea: null,
   departamento: null,
   tienda: null,
   producto: null,
@@ -19,8 +18,6 @@ function filterReducer(state: FilterState, action: FilterAction): FilterState {
       return { ...state, periodo: action.payload, periodoInicio: action.payload, periodoFin: action.payload };
     case 'SET_PERIODO_RANGO':
       return { ...state, periodo: null, periodoInicio: action.payload.inicio, periodoFin: action.payload.fin };
-    case 'SET_LINEA':
-      return { ...state, linea: action.payload };
     case 'SET_DEPARTAMENTO':
       return { ...state, departamento: action.payload };
     case 'SET_TIENDA':
@@ -49,7 +46,6 @@ export function FilterProvider({ children }: { children: ReactNode }) {
   const queryParams: Record<string, string> = {};
   if (filters.periodoInicio) queryParams.fechaInicio = filters.periodoInicio;
   if (filters.periodoFin) queryParams.fechaFin = filters.periodoFin;
-  if (filters.linea) queryParams.linea = filters.linea;
   if (filters.departamento) queryParams.departamento = filters.departamento;
   if (filters.tienda) queryParams.tiendaCodigo = String(filters.tienda);
   if (filters.producto) queryParams.upc = filters.producto;

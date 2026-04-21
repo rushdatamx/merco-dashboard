@@ -1,19 +1,17 @@
-// ─── Colores por línea de negocio ───
-export const LINEA_COLORS: Record<string, string> = {
-  'Tostada': '#F97316',          // naranja
-  'Botanas Delikos': '#3B82F6',  // azul
-  'Mi Marca': '#8B5CF6',         // morado
-  'Botana Mi Marca': '#10B981',  // esmeralda
-  'Otros': '#6B7280',            // gris
+// ─── Colores por departamento ───
+export const DEPARTAMENTO_COLORS: Record<string, string> = {
+  'Abarrotes': '#F97316',          // naranja
+  'Panaderia': '#3B82F6',          // azul
+  'Frutas y Verduras': '#10B981',  // esmeralda
+  'Sin departamento': '#6B7280',   // gris
 };
 
 // Para Recharts
-export const LINEA_CHART_COLORS = [
-  '#F97316', // Tostada - naranja
-  '#3B82F6', // Botanas Delikos - azul
-  '#8B5CF6', // Mi Marca - morado
-  '#10B981', // Botana Mi Marca - esmeralda
-  '#6B7280', // Otros - gris
+export const DEPARTAMENTO_CHART_COLORS = [
+  '#F97316', // Abarrotes - naranja
+  '#3B82F6', // Panaderia - azul
+  '#10B981', // Frutas y Verduras - esmeralda
+  '#6B7280', // Sin departamento - gris
 ];
 
 // ─── Brand ───
@@ -33,14 +31,6 @@ export const NAV_ITEMS = [
   { href: '/tiendas', label: 'Tiendas', icon: 'Store' },
   { href: '/productos', label: 'Productos', icon: 'Package' },
   { href: '/tendencias', label: 'Tendencias', icon: 'BarChart3' },
-] as const;
-
-// ─── Líneas de negocio conocidas ───
-export const LINEAS_NEGOCIO = [
-  'Tostada',
-  'Botanas Delikos',
-  'Mi Marca',
-  'Botana Mi Marca',
 ] as const;
 
 // ─── Meses en español ───

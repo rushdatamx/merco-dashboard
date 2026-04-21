@@ -13,8 +13,8 @@ import { ChartWrapper } from '@/components/charts/chart-wrapper';
 import { LoadingPage } from '@/components/layout/loading';
 import { Badge } from '@/components/ui/badge';
 import { formatMXN, formatNumber, formatCompact } from '@/lib/format';
-import { formatPeriodo, LINEA_COLORS } from '@/lib/constants';
-import type { MonthlySummary, LineaSummary, StorePerformance, Insight } from '@/lib/types';
+import { formatPeriodo, DEPARTAMENTO_COLORS } from '@/lib/constants';
+import type { MonthlySummary, DepartamentoSummary, StorePerformance, Insight } from '@/lib/types';
 
 interface DashboardResponse {
   kpis: {
@@ -31,7 +31,7 @@ interface DashboardResponse {
     mesActual: string;
   };
   tendenciaMensual: MonthlySummary[];
-  mixLineas: LineaSummary[];
+  mixDepartamentos: DepartamentoSummary[];
   topTiendas: StorePerformance[];
   insights: Insight[];
 }
@@ -49,7 +49,7 @@ export default function DashboardPage() {
 
   if (loading || !data) return <LoadingPage />;
 
-  const { kpis, mixLineas, topTiendas, insights } = data;
+  const { kpis, mixDepartamentos, topTiendas, insights } = data;
 
   return (
     <div className="p-4 lg:p-6 space-y-6">
@@ -120,13 +120,13 @@ export default function DashboardPage() {
           </ResponsiveContainer>
         </ChartWrapper>
 
-        <ChartWrapper titulo="Mix por línea" subtitulo="Distribución de ventas">
+        <ChartWrapper titulo="Mix por departamento" subtitulo="Distribución de ventas">
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={mixLineas}
+                data={mixDepartamentos}
                 dataKey="ventaTotal"
-                nameKey="linea"
+                nameKey="departamento"
                 cx="50%"
                 cy="50%"
                 innerRadius={60}
@@ -135,10 +135,10 @@ export default function DashboardPage() {
                 label={({ percent }) => `${((percent || 0) * 100).toFixed(0)}%`}
                 labelLine={false}
               >
-                {mixLineas.map((entry) => (
+                {mixDepartamentos.map((entry) => (
                   <Cell
-                    key={entry.linea}
-                    fill={LINEA_COLORS[entry.linea] || LINEA_COLORS['Otros']}
+                    key={entry.departamento}
+                    fill={DEPARTAMENTO_COLORS[entry.departamento] || DEPARTAMENTO_COLORS['Sin departamento']}
                   />
                 ))}
               </Pie>

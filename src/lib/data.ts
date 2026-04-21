@@ -1,12 +1,11 @@
 import { prisma } from './prisma';
-import type { EnrichedSale, MonthlySummary, StorePerformance, ProductPerformance, LineaSummary } from './types';
+import type { EnrichedSale, MonthlySummary, StorePerformance, ProductPerformance, DepartamentoSummary } from './types';
 
 // ─── Enriched sales with joins ───
 
 export async function getEnrichedSales(filters?: {
   fechaInicio?: string;
   fechaFin?: string;
-  linea?: string;
   departamento?: string;
   tiendaCodigo?: number;
   upc?: string;
@@ -29,10 +28,8 @@ export async function getEnrichedSales(filters?: {
     where.upc = filters.upc;
   }
 
-  if (filters?.linea || filters?.departamento) {
-    where.product = {};
-    if (filters.linea) (where.product as Record<string, unknown>).linea = filters.linea;
-    if (filters.departamento) (where.product as Record<string, unknown>).departamento = filters.departamento;
+  if (filters?.departamento) {
+    where.product = { departamento: filters.departamento };
   }
 
   const sales = await prisma.sale.findMany({
@@ -53,7 +50,6 @@ export async function getEnrichedSales(filters?: {
     unidades: s.unidades,
     nombreProducto: s.product.nombreProducto,
     nombreTienda: s.store.nombreTienda,
-    linea: s.product.linea || 'Otros',
     departamento: s.product.departamento || 'Sin departamento',
   }));
 }
@@ -61,7 +57,6 @@ export async function getEnrichedSales(filters?: {
 // ─── Monthly summary ───
 
 export async function getMonthlySummary(filters?: {
-  linea?: string;
   departamento?: string;
   tiendaCodigo?: number;
   upc?: string;
@@ -98,7 +93,6 @@ export async function getMonthlySummary(filters?: {
 export async function getStorePerformance(filters?: {
   fechaInicio?: string;
   fechaFin?: string;
-  linea?: string;
   upc?: string;
 }): Promise<StorePerformance[]> {
   const sales = await getEnrichedSales(filters);
@@ -152,7 +146,6 @@ export async function getStorePerformance(filters?: {
 export async function getProductPerformance(filters?: {
   fechaInicio?: string;
   fechaFin?: string;
-  linea?: string;
   upc?: string;
 }): Promise<ProductPerformance[]> {
   const sales = await getEnrichedSales(filters);
@@ -162,7 +155,6 @@ export async function getProductPerformance(filters?: {
 
   const byProduct = new Map<string, {
     nombre: string;
-    linea: string;
     departamento: string;
     pesos: number;
     unidades: number;
@@ -173,7 +165,7 @@ export async function getProductPerformance(filters?: {
   for (const s of sales) {
     let p = byProduct.get(s.upc);
     if (!p) {
-      p = { nombre: s.nombreProducto, linea: s.linea, departamento: s.departamento, pesos: 0, unidades: 0, tiendas: new Set(), ventaPorMes: new Map() };
+      p = { nombre: s.nombreProducto, departamento: s.departamento, pesos: 0, unidades: 0, tiendas: new Set(), ventaPorMes: new Map() };
       byProduct.set(s.upc, p);
     }
     p.pesos += s.ventaPesos;
@@ -193,7 +185,6 @@ export async function getProductPerformance(filters?: {
       return {
         upc,
         nombreProducto: d.nombre,
-        linea: d.linea,
         departamento: d.departamento,
         ventaTotal: d.pesos,
         unidadesTotal: d.unidades,
@@ -206,33 +197,33 @@ export async function getProductPerformance(filters?: {
     .sort((a, b) => b.ventaTotal - a.ventaTotal);
 }
 
-// ─── Line summary ───
+// ─── Departamento summary ───
 
-export async function getLineaSummary(filters?: {
+export async function getDepartamentoSummary(filters?: {
   fechaInicio?: string;
   fechaFin?: string;
   upc?: string;
-}): Promise<LineaSummary[]> {
+}): Promise<DepartamentoSummary[]> {
   const sales = await getEnrichedSales(filters);
 
-  const byLinea = new Map<string, { pesos: number; unidades: number; productos: Set<string> }>();
+  const byDept = new Map<string, { pesos: number; unidades: number; productos: Set<string> }>();
 
   for (const s of sales) {
-    let l = byLinea.get(s.linea);
-    if (!l) {
-      l = { pesos: 0, unidades: 0, productos: new Set() };
-      byLinea.set(s.linea, l);
+    let d = byDept.get(s.departamento);
+    if (!d) {
+      d = { pesos: 0, unidades: 0, productos: new Set() };
+      byDept.set(s.departamento, d);
     }
-    l.pesos += s.ventaPesos;
-    l.unidades += s.unidades;
-    l.productos.add(s.upc);
+    d.pesos += s.ventaPesos;
+    d.unidades += s.unidades;
+    d.productos.add(s.upc);
   }
 
-  const totalPesos = Array.from(byLinea.values()).reduce((a, b) => a + b.pesos, 0);
+  const totalPesos = Array.from(byDept.values()).reduce((a, b) => a + b.pesos, 0);
 
-  return Array.from(byLinea.entries())
-    .map(([linea, d]) => ({
-      linea,
+  return Array.from(byDept.entries())
+    .map(([departamento, d]) => ({
+      departamento,
       ventaTotal: d.pesos,
       unidadesTotal: d.unidades,
       productos: d.productos.size,
@@ -252,15 +243,15 @@ export async function getAvailableMonths(): Promise<string[]> {
   return result.map((r) => r.fecha);
 }
 
-// ─── Available lineas ───
+// ─── Available departamentos ───
 
-export async function getAvailableLineas(): Promise<string[]> {
+export async function getAvailableDepartamentos(): Promise<string[]> {
   const result = await prisma.product.findMany({
-    select: { linea: true },
-    distinct: ['linea'],
-    where: { linea: { not: null } },
+    select: { departamento: true },
+    distinct: ['departamento'],
+    where: { departamento: { not: null } },
   });
-  return result.map((r) => r.linea!).filter(Boolean).sort();
+  return result.map((r) => r.departamento!).filter(Boolean).sort();
 }
 
 // ─── All stores for filter ───
