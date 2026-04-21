@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
     fechaInicio: params.fechaInicio || undefined,
     fechaFin: params.fechaFin || undefined,
     linea: params.linea || undefined,
+    upc: params.upc || undefined,
   };
 
   const [stores, sales] = await Promise.all([

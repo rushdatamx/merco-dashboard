@@ -9,6 +9,7 @@ export async function getEnrichedSales(filters?: {
   linea?: string;
   departamento?: string;
   tiendaCodigo?: number;
+  upc?: string;
 }): Promise<EnrichedSale[]> {
   const where: Record<string, unknown> = {};
 
@@ -22,6 +23,10 @@ export async function getEnrichedSales(filters?: {
 
   if (filters?.tiendaCodigo) {
     where.tiendaCodigo = filters.tiendaCodigo;
+  }
+
+  if (filters?.upc) {
+    where.upc = filters.upc;
   }
 
   if (filters?.linea || filters?.departamento) {
@@ -59,6 +64,7 @@ export async function getMonthlySummary(filters?: {
   linea?: string;
   departamento?: string;
   tiendaCodigo?: number;
+  upc?: string;
 }): Promise<MonthlySummary[]> {
   const sales = await getEnrichedSales(filters);
 
@@ -93,6 +99,7 @@ export async function getStorePerformance(filters?: {
   fechaInicio?: string;
   fechaFin?: string;
   linea?: string;
+  upc?: string;
 }): Promise<StorePerformance[]> {
   const sales = await getEnrichedSales(filters);
 
@@ -146,6 +153,7 @@ export async function getProductPerformance(filters?: {
   fechaInicio?: string;
   fechaFin?: string;
   linea?: string;
+  upc?: string;
 }): Promise<ProductPerformance[]> {
   const sales = await getEnrichedSales(filters);
 
@@ -203,6 +211,7 @@ export async function getProductPerformance(filters?: {
 export async function getLineaSummary(filters?: {
   fechaInicio?: string;
   fechaFin?: string;
+  upc?: string;
 }): Promise<LineaSummary[]> {
   const sales = await getEnrichedSales(filters);
 
@@ -260,5 +269,14 @@ export async function getAllStores() {
   return prisma.store.findMany({
     orderBy: { nombreTienda: 'asc' },
     select: { codigoTienda: true, nombreTienda: true },
+  });
+}
+
+// ─── All products for filter ───
+
+export async function getAllProducts() {
+  return prisma.product.findMany({
+    orderBy: { nombreProducto: 'asc' },
+    select: { upc: true, nombreProducto: true },
   });
 }

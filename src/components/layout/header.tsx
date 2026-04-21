@@ -11,6 +11,7 @@ interface FilterOptions {
   months: string[];
   lineas: string[];
   stores: { codigoTienda: number; nombreTienda: string }[];
+  products: { upc: string; nombreProducto: string }[];
 }
 
 export function Header() {
@@ -24,7 +25,7 @@ export function Header() {
       .catch(console.error);
   }, []);
 
-  const hasFilters = filters.periodoInicio || filters.linea || filters.departamento || filters.tienda;
+  const hasFilters = filters.periodoInicio || filters.linea || filters.departamento || filters.tienda || filters.producto;
 
   return (
     <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
@@ -77,6 +78,24 @@ export function Header() {
             {options?.stores.map((s) => (
               <SelectItem key={s.codigoTienda} value={String(s.codigoTienda)}>
                 {s.nombreTienda}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Producto */}
+        <Select
+          value={filters.producto || 'all'}
+          onValueChange={(v) => dispatch({ type: 'SET_PRODUCTO', payload: v === 'all' ? null : v })}
+        >
+          <SelectTrigger className="w-[200px] h-8 text-xs shrink-0">
+            <SelectValue placeholder="Producto" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todos los productos</SelectItem>
+            {options?.products.map((p) => (
+              <SelectItem key={p.upc} value={p.upc}>
+                {p.nombreProducto}
               </SelectItem>
             ))}
           </SelectContent>

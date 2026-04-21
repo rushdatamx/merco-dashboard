@@ -107,6 +107,7 @@ export interface FilterState {
   linea: string | null;
   departamento: string | null;
   tienda: number | null;
+  producto: string | null; // UPC
 }
 
 export type FilterAction =
@@ -115,6 +116,7 @@ export type FilterAction =
   | { type: 'SET_LINEA'; payload: string | null }
   | { type: 'SET_DEPARTAMENTO'; payload: string | null }
   | { type: 'SET_TIENDA'; payload: number | null }
+  | { type: 'SET_PRODUCTO'; payload: string | null }
   | { type: 'RESET' };
 
 // ─── API response types ───

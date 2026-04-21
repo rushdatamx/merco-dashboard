@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
       linea: params.linea || undefined,
       departamento: params.departamento || undefined,
       tiendaCodigo: params.tiendaCodigo ? Number(params.tiendaCodigo) : undefined,
+      upc: params.upc || undefined,
     };
 
     const [monthlySummary, allSales] = await Promise.all([

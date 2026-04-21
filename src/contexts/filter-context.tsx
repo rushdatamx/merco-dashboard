@@ -10,6 +10,7 @@ const initialState: FilterState = {
   linea: null,
   departamento: null,
   tienda: null,
+  producto: null,
 };
 
 function filterReducer(state: FilterState, action: FilterAction): FilterState {
@@ -24,6 +25,8 @@ function filterReducer(state: FilterState, action: FilterAction): FilterState {
       return { ...state, departamento: action.payload };
     case 'SET_TIENDA':
       return { ...state, tienda: action.payload };
+    case 'SET_PRODUCTO':
+      return { ...state, producto: action.payload };
     case 'RESET':
       return initialState;
     default:
@@ -49,6 +52,7 @@ export function FilterProvider({ children }: { children: ReactNode }) {
   if (filters.linea) queryParams.linea = filters.linea;
   if (filters.departamento) queryParams.departamento = filters.departamento;
   if (filters.tienda) queryParams.tiendaCodigo = String(filters.tienda);
+  if (filters.producto) queryParams.upc = filters.producto;
 
   return (
     <FilterContext.Provider value={{ filters, dispatch, queryParams }}>
