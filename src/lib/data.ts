@@ -57,6 +57,8 @@ export async function getEnrichedSales(filters?: {
 // ─── Monthly summary ───
 
 export async function getMonthlySummary(filters?: {
+  fechaInicio?: string;
+  fechaFin?: string;
   departamento?: string;
   tiendaCodigo?: number;
   upc?: string;
@@ -93,6 +95,7 @@ export async function getMonthlySummary(filters?: {
 export async function getStorePerformance(filters?: {
   fechaInicio?: string;
   fechaFin?: string;
+  departamento?: string;
   upc?: string;
 }): Promise<StorePerformance[]> {
   const sales = await getEnrichedSales(filters);
@@ -146,6 +149,7 @@ export async function getStorePerformance(filters?: {
 export async function getProductPerformance(filters?: {
   fechaInicio?: string;
   fechaFin?: string;
+  departamento?: string;
   upc?: string;
 }): Promise<ProductPerformance[]> {
   const sales = await getEnrichedSales(filters);

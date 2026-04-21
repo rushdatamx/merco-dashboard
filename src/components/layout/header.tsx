@@ -25,7 +25,7 @@ export function Header() {
       .catch(console.error);
   }, []);
 
-  const hasFilters = filters.periodoInicio || filters.departamento || filters.tienda || filters.producto;
+  const hasFilters = filters.periodoInicio || filters.periodoFin || filters.departamento || filters.tienda || filters.producto;
 
   return (
     <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
@@ -33,16 +33,38 @@ export function Header() {
         {/* Mobile brand */}
         <h1 className="lg:hidden text-lg font-bold text-brand mr-2 shrink-0">DELIKOS</h1>
 
-        {/* Period */}
+        {/* Date range: Desde */}
         <Select
           value={filters.periodoInicio || 'all'}
-          onValueChange={(v) => dispatch({ type: 'SET_PERIODO', payload: v === 'all' ? null : v })}
+          onValueChange={(v) => {
+            const inicio = v === 'all' ? null : v;
+            dispatch({ type: 'SET_PERIODO_RANGO', payload: { inicio, fin: filters.periodoFin } });
+          }}
         >
-          <SelectTrigger className="w-[150px] h-8 text-xs shrink-0">
-            <SelectValue placeholder="Periodo" />
+          <SelectTrigger className="w-[140px] h-8 text-xs shrink-0">
+            <SelectValue placeholder="Desde" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Todos los meses</SelectItem>
+            <SelectItem value="all">Desde inicio</SelectItem>
+            {options?.months.map((m) => (
+              <SelectItem key={m} value={m}>{formatPeriodo(m)}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Date range: Hasta */}
+        <Select
+          value={filters.periodoFin || 'all'}
+          onValueChange={(v) => {
+            const fin = v === 'all' ? null : v;
+            dispatch({ type: 'SET_PERIODO_RANGO', payload: { inicio: filters.periodoInicio, fin } });
+          }}
+        >
+          <SelectTrigger className="w-[140px] h-8 text-xs shrink-0">
+            <SelectValue placeholder="Hasta" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Hasta hoy</SelectItem>
             {options?.months.map((m) => (
               <SelectItem key={m} value={m}>{formatPeriodo(m)}</SelectItem>
             ))}

@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
   const filters = {
     fechaInicio: params.fechaInicio || undefined,
     fechaFin: params.fechaFin || undefined,
+    departamento: params.departamento || undefined,
     upc: params.upc || undefined,
   };
 
