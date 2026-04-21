@@ -56,7 +56,7 @@ export default function DashboardPage() {
       <div>
         <h2 className="text-2xl font-bold">Dashboard</h2>
         <p className="text-sm text-muted-foreground">
-          Vista ejecutiva — Sell-out Merco (Chedraui)
+          Vista ejecutiva — Sell-out Merco
         </p>
       </div>
 

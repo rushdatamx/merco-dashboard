@@ -48,7 +48,7 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="p-4 border-t border-sidebar-border">
-        <p className="text-[10px] text-muted-foreground">Sell-out Merco (Chedraui)</p>
+        <p className="text-[10px] text-muted-foreground">Sell-out Merco</p>
         <p className="text-[10px] text-muted-foreground">Ene 2025 — Mar 2026</p>
       </div>
     </aside>

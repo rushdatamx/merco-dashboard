@@ -15,7 +15,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: 'Delikos BI Dashboard',
-  description: 'Dashboard de Business Intelligence para Delikos — Sell-out Merco (Chedraui)',
+  description: 'Dashboard de Business Intelligence para Delikos — Sell-out Merco',
 };
 
 export default function RootLayout({
