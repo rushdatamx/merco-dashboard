@@ -64,7 +64,7 @@ export function formatChange(value: number | null | undefined): string {
 /** Determine color class based on change direction */
 export function changeColor(value: number | null | undefined): string {
   if (value == null) return 'text-muted-foreground';
-  if (value > 0) return 'text-emerald-400';
-  if (value < 0) return 'text-red-400';
+  if (value > 0) return 'text-emerald-600';
+  if (value < 0) return 'text-red-500';
   return 'text-muted-foreground';
 }

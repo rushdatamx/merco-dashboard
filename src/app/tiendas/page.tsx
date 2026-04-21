@@ -135,24 +135,24 @@ export default function TiendasPage() {
         <ChartWrapper titulo="Volumen vs Crecimiento" subtitulo="Cuadrantes BCG — tamaño = # SKUs">
           <ResponsiveContainer width="100%" height={400}>
             <ScatterChart>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
               <XAxis
                 dataKey="x"
                 type="number"
-                tick={{ fontSize: 10, fill: '#999' }}
+                tick={{ fontSize: 10, fill: '#6b7280' }}
                 tickFormatter={(v) => formatCompact(v)}
                 name="Ventas"
               />
               <YAxis
                 dataKey="y"
                 type="number"
-                tick={{ fontSize: 10, fill: '#999' }}
+                tick={{ fontSize: 10, fill: '#6b7280' }}
                 tickFormatter={(v) => `${v.toFixed(0)}%`}
                 name="Crecimiento MoM%"
               />
               <ZAxis dataKey="z" range={[40, 200]} name="SKUs" />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value, name) => {
                   const v = Number(value);
                   const n = String(name);
@@ -209,7 +209,7 @@ export default function TiendasPage() {
                             style={{
                               backgroundColor: d.valor > 0
                                 ? `rgba(249, 115, 22, ${Math.max(0.08, intensity)})`
-                                : 'rgba(255,255,255,0.03)',
+                                : 'rgba(0,0,0,0.03)',
                             }}
                           />
                         </td>
@@ -250,7 +250,7 @@ export default function TiendasPage() {
                         {val > 0 ? (
                           <span className="text-foreground">{formatCompact(val)}</span>
                         ) : (
-                          <Badge variant="outline" className="text-[8px] text-red-400 border-red-400/30">
+                          <Badge variant="outline" className="text-[8px] text-red-500 border-red-500/30">
                             gap
                           </Badge>
                         )}

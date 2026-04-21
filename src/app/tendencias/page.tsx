@@ -114,11 +114,11 @@ export default function TendenciasPage() {
         <ChartWrapper titulo="Comparación Year-over-Year" subtitulo="Ene–Mar 2025 vs 2026">
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={yoyChartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="mesLabel" tick={{ fontSize: 11, fill: '#999' }} />
-              <YAxis tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => formatCompact(v)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+              <XAxis dataKey="mesLabel" tick={{ fontSize: 11, fill: '#6b7280' }} />
+              <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => formatCompact(v)} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value, name) => [formatMXN(Number(value)), String(name)]}
               />
               <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -132,11 +132,11 @@ export default function TendenciasPage() {
         <ChartWrapper titulo="Índice de estacionalidad" subtitulo="100 = promedio mensual">
           <ResponsiveContainer width="100%" height={300}>
             <ComposedChart data={seasonData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#999' }} />
-              <YAxis tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => `${v.toFixed(0)}`} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+              <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6b7280' }} />
+              <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => `${v.toFixed(0)}`} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value) => [`${Number(value).toFixed(1)}`, 'Índice']}
               />
               <Area type="monotone" dataKey="indice" fill="#F97316" fillOpacity={0.1} stroke="none" />
@@ -157,11 +157,11 @@ export default function TendenciasPage() {
       <ChartWrapper titulo="Media móvil 3 meses" subtitulo="Línea naranja = ventas reales, línea azul = MA3">
         <ResponsiveContainer width="100%" height={350}>
           <LineChart data={maData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-            <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#999' }} />
-            <YAxis tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => formatCompact(v)} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+            <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6b7280' }} />
+            <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => formatCompact(v)} />
             <Tooltip
-              contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+              contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
               formatter={(value, name) => {
                 const label = String(name) === 'ventaPesos' ? 'Ventas' : 'MA 3 meses';
                 return [formatMXN(Number(value)), label];

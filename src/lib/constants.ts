@@ -21,9 +21,9 @@ export const BRAND = {
   primary: '#F97316',    // naranja Delikos
   primaryLight: '#FB923C',
   primaryDark: '#EA580C',
-  background: '#0F0F0F',
-  cardBg: '#1A1A1A',
-  border: '#2A2A2A',
+  background: '#FAFAFA',
+  cardBg: '#FFFFFF',
+  border: '#E5E5E5',
 };
 
 // ─── Navegación ───

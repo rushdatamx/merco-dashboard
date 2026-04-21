@@ -179,11 +179,11 @@ export default function ProductosPage() {
         <ChartWrapper titulo="Crecimiento vs Volumen" subtitulo="Posición de cada producto">
           <ResponsiveContainer width="100%" height={350}>
             <ScatterChart>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="x" type="number" tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => formatCompact(v)} name="Ventas" />
-              <YAxis dataKey="y" type="number" tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => `${v.toFixed(0)}%`} name="Crecimiento" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+              <XAxis dataKey="x" type="number" tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => formatCompact(v)} name="Ventas" />
+              <YAxis dataKey="y" type="number" tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => `${v.toFixed(0)}%`} name="Crecimiento" />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value, name) => {
                   const v = Number(value);
                   const n = String(name);
@@ -205,11 +205,11 @@ export default function ProductosPage() {
         <ChartWrapper titulo="Distribución por producto" subtitulo="# de tiendas donde se vende">
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={distributionData} layout="vertical" margin={{ left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis type="number" tick={{ fontSize: 10, fill: '#999' }} />
-              <YAxis type="category" dataKey="nombre" width={160} tick={{ fontSize: 8, fill: '#999' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+              <XAxis type="number" tick={{ fontSize: 10, fill: '#6b7280' }} />
+              <YAxis type="category" dataKey="nombre" width={160} tick={{ fontSize: 8, fill: '#6b7280' }} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
               />
               <Bar dataKey="tiendas" radius={[0, 4, 4, 0]}>
                 {distributionData.map((entry, i) => (
@@ -226,11 +226,11 @@ export default function ProductosPage() {
         <ChartWrapper titulo="Precio unitario promedio" subtitulo="Top 20 productos por precio">
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={priceData} layout="vertical" margin={{ left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis type="number" tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => `$${v}`} />
-              <YAxis type="category" dataKey="nombre" width={160} tick={{ fontSize: 8, fill: '#999' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+              <XAxis type="number" tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => `$${v}`} />
+              <YAxis type="category" dataKey="nombre" width={160} tick={{ fontSize: 8, fill: '#6b7280' }} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value) => [formatMXNDecimal(Number(value)), 'Precio promedio']}
               />
               <Bar dataKey="precio" radius={[0, 4, 4, 0]}>
@@ -246,11 +246,11 @@ export default function ProductosPage() {
         <ChartWrapper titulo="Comparación entre líneas" subtitulo="Ventas totales por línea de negocio">
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={data.lineas}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="linea" tick={{ fontSize: 10, fill: '#999' }} />
-              <YAxis tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => formatCompact(v)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+              <XAxis dataKey="linea" tick={{ fontSize: 10, fill: '#6b7280' }} />
+              <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => formatCompact(v)} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value) => [formatMXN(Number(value)), 'Ventas']}
               />
               <Bar dataKey="ventaTotal" radius={[4, 4, 0, 0]}>

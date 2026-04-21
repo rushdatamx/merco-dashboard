@@ -71,11 +71,11 @@ export default function VentasPage() {
       <ChartWrapper titulo="Tendencia mensual por línea" subtitulo="Ventas en pesos (área apilada)">
         <ResponsiveContainer width="100%" height={350}>
           <AreaChart data={tendenciaData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-            <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#999' }} />
-            <YAxis tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => formatCompact(v)} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+            <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6b7280' }} />
+            <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => formatCompact(v)} />
             <Tooltip
-              contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+              contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
               formatter={(value, name) => [formatMXN(Number(value)), String(name)]}
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -131,16 +131,16 @@ export default function VentasPage() {
         <ChartWrapper titulo="Ventas por departamento" subtitulo="Desglose Merco">
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={data.departamentos} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis type="number" tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => formatCompact(v)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+              <XAxis type="number" tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => formatCompact(v)} />
               <YAxis
                 type="category"
                 dataKey="departamento"
                 width={120}
-                tick={{ fontSize: 10, fill: '#999' }}
+                tick={{ fontSize: 10, fill: '#6b7280' }}
               />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value) => [formatMXN(Number(value)), 'Ventas']}
               />
               <Bar dataKey="ventaPesos" fill="#3B82F6" radius={[0, 4, 4, 0]} />
@@ -153,19 +153,19 @@ export default function VentasPage() {
       <ChartWrapper titulo="Análisis Pareto (80/20)" subtitulo="Top 20 productos — barras = ventas, línea = % acumulado">
         <ResponsiveContainer width="100%" height={400}>
           <ComposedChart data={paretoData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
             <XAxis
               dataKey="nombre"
-              tick={{ fontSize: 8, fill: '#999' }}
+              tick={{ fontSize: 8, fill: '#6b7280' }}
               angle={-45}
               textAnchor="end"
               height={100}
               interval={0}
             />
-            <YAxis yAxisId="left" tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => formatCompact(v)} />
-            <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
+            <YAxis yAxisId="left" tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => formatCompact(v)} />
+            <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
             <Tooltip
-              contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+              contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
               formatter={(value, name) => {
                 const v = Number(value);
                 return String(name) === 'porcentajeAcumulado' ? [`${v.toFixed(1)}%`, '% Acumulado'] : [formatMXN(v), 'Ventas'];

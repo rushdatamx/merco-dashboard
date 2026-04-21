@@ -101,11 +101,11 @@ export default function DashboardPage() {
         <ChartWrapper titulo="Tendencia de ventas" subtitulo="15 meses (pesos)" className="lg:col-span-2">
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#999' }} />
-              <YAxis tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => formatCompact(v)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+              <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6b7280' }} />
+              <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => formatCompact(v)} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value) => [formatMXN(Number(value)), 'Ventas']}
               />
               <Line
@@ -143,7 +143,7 @@ export default function DashboardPage() {
                 ))}
               </Pie>
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value) => [formatMXN(Number(value)), 'Ventas']}
               />
               <Legend
@@ -159,17 +159,17 @@ export default function DashboardPage() {
         <ChartWrapper titulo="Top 10 tiendas" subtitulo="Por venta total">
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={topTiendas} layout="vertical" margin={{ left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis type="number" tick={{ fontSize: 10, fill: '#999' }} tickFormatter={(v) => formatCompact(v)} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
+              <XAxis type="number" tick={{ fontSize: 10, fill: '#6b7280' }} tickFormatter={(v) => formatCompact(v)} />
               <YAxis
                 type="category"
                 dataKey="nombreTienda"
                 width={140}
-                tick={{ fontSize: 9, fill: '#999' }}
+                tick={{ fontSize: 9, fill: '#6b7280' }}
                 tickFormatter={(v: string) => v.length > 22 ? v.slice(0, 22) + '...' : v}
               />
               <Tooltip
-                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e5e5', color: '#1a1a1a', borderRadius: 8, fontSize: 12 }}
                 formatter={(value) => [formatMXN(Number(value)), 'Ventas']}
               />
               <Bar dataKey="ventaTotal" fill="#F97316" radius={[0, 4, 4, 0]} />
